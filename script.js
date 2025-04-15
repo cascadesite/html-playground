@@ -16,6 +16,7 @@ function initializeEditor() {
     editor.on("change", () => {
         if (currentFile) {
             files[currentFile] = editor.getValue();
+            saveFilesToLocalStorage();
             updateIframe();
         }
     });
@@ -35,6 +36,29 @@ function updateIframe() {
     iframeDoc.close();
 }
 
+// Save files to localStorage
+function saveFilesToLocalStorage() {
+    localStorage.setItem("playgroundFiles", JSON.stringify(files));
+    localStorage.setItem("currentFile", currentFile);
+}
+
+// Load files from localStorage
+function loadFilesFromLocalStorage() {
+    const savedFiles = localStorage.getItem("playgroundFiles");
+    const savedCurrentFile = localStorage.getItem("currentFile");
+
+    if (savedFiles) {
+        files = JSON.parse(savedFiles);
+        Object.keys(files).forEach(addTab);
+    }
+
+    if (savedCurrentFile) {
+        switchFile(savedCurrentFile);
+    } else if (Object.keys(files).length > 0) {
+        switchFile(Object.keys(files)[0]);
+    }
+}
+
 // Create a new file
 function createFileFromBar(fileName) {
     if (!files[fileName]) {
@@ -48,11 +72,19 @@ function createFileFromBar(fileName) {
 function addTab(fileName) {
     const tab = document.createElement("div");
     tab.textContent = fileName;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "x";
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.onclick = () => deleteFile(fileName, tab);
+
+    tab.appendChild(deleteBtn);
     tab.onclick = () => switchFile(fileName);
     tab.oncontextmenu = (e) => {
         e.preventDefault();
         showTabContextMenu(e, tab);
     };
+
     document.getElementById("file-tabs").appendChild(tab);
 }
 
@@ -60,7 +92,7 @@ function addTab(fileName) {
 function switchFile(fileName) {
     currentFile = fileName;
     document.querySelectorAll("#file-tabs div").forEach((tab) => {
-        tab.classList.toggle("active", tab.textContent === fileName);
+        tab.classList.toggle("active", tab.textContent.includes(fileName));
     });
     editor.setValue(files[fileName]);
     editor.setOption("mode", getMode(fileName));
@@ -85,6 +117,7 @@ function renameFile() {
                 currentFile = newName;
                 tab.contentEditable = false;
                 tab.classList.remove("editable");
+                saveFilesToLocalStorage();
                 switchFile(newName);
             } else {
                 alert("Invalid or duplicate file name");
@@ -96,16 +129,35 @@ function renameFile() {
     };
 }
 
+// Delete a file
+function deleteFile(fileName, tab) {
+    delete files[fileName];
+    tab.remove();
+    saveFilesToLocalStorage();
+
+    if (currentFile === fileName) {
+        const remainingFiles = Object.keys(files);
+        if (remainingFiles.length > 0) {
+            switchFile(remainingFiles[0]);
+        } else {
+            currentFile = null;
+            editor.setValue("");
+        }
+    }
+}
+
 // Show/Hide Console
 function toggleConsole() {
     const consoleWrapper = document.getElementById("console-wrapper");
     const toggleButton = document.getElementById("toggle-console");
-    if (consoleWrapper.style.display === "none" || !consoleWrapper.style.display) {
-        consoleWrapper.style.display = "flex";
-        toggleButton.textContent = "Hide Console";
+    if (consoleWrapper.classList.contains("collapsed")) {
+        consoleWrapper.classList.remove("collapsed");
+        consoleWrapper.classList.add("expanded");
+        toggleButton.textContent = "v";
     } else {
-        consoleWrapper.style.display = "none";
-        toggleButton.textContent = "Show Console";
+        consoleWrapper.classList.remove("expanded");
+        consoleWrapper.classList.add("collapsed");
+        toggleButton.textContent = "^";
     }
 }
 
@@ -156,8 +208,5 @@ document.getElementById("file-input").addEventListener("keypress", (e) => {
 // Initialize the playground
 document.addEventListener("DOMContentLoaded", () => {
     initializeEditor();
-    createFileFromBar("index.html"); // Default file
-    createFileFromBar("style.css"); // Default file
-    createFileFromBar("script.js"); // Default file
-    switchFile("index.html"); // Open default file
+    loadFilesFromLocalStorage();
 });

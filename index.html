@@ -29,8 +29,8 @@
         <!-- Output Pane -->
         <div id="output-pane">
             <iframe id="output"></iframe>
-            <div id="console-wrapper">
-                <button id="toggle-console" onclick="toggleConsole()">Show Console</button>
+            <div id="console-wrapper" class="collapsed">
+                <button id="toggle-console" onclick="toggleConsole()">^</button>
                 <div id="console"></div>
             </div>
         </div>
@@ -47,6 +47,7 @@
     <div id="tab-context-menu">
         <ul>
             <li onclick="renameFile()">Rename File</li>
+            <li onclick="deleteFile()">Delete File</li>
         </ul>
     </div>
 
