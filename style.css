@@ -78,6 +78,7 @@ body {
     height: 100%;
     font-size: 16px;
     background: #1e1e1e;
+    color: #e0e0e0; /* Ensure text is light */
 }
 
 /* Output Pane on the Right */

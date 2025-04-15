@@ -6,7 +6,7 @@ let currentFile = null;
 function initializeEditor() {
     editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         mode: "htmlmixed",
-        theme: "dracula",
+        theme: "material-darker",
         lineNumbers: true,
         autoCloseBrackets: true,
         autoCloseTags: true,
