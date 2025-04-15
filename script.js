@@ -33,11 +33,47 @@ function updateIframe() {
 
     const html = files["index.html"] || "";
     const css = `<style>${files["style.css"] || ""}</style>`;
-    const js = `<script>${files["script.js"] || ""}</script>`;
+    const js = `<script>
+        (function() {
+            const log = console.log;
+            const error = console.error;
+            const warn = console.warn;
+            const info = console.info;
+
+            // Redirect console methods to the playground console
+            console.log = function(...args) {
+                log(...args);
+                window.parent.logToPlaygroundConsole('log', args);
+            };
+            console.error = function(...args) {
+                error(...args);
+                window.parent.logToPlaygroundConsole('error', args);
+            };
+            console.warn = function(...args) {
+                warn(...args);
+                window.parent.logToPlaygroundConsole('warn', args);
+            };
+            console.info = function(...args) {
+                info(...args);
+                window.parent.logToPlaygroundConsole('info', args);
+            };
+        })();
+        ${files["script.js"] || ""}
+    </script>`;
 
     iframeDoc.open();
     iframeDoc.write(html + css + js);
     iframeDoc.close();
+}
+
+// Log messages to the playground console
+function logToPlaygroundConsole(type, args) {
+    const consoleElement = document.getElementById("console");
+    const messageElement = document.createElement("div");
+    messageElement.classList.add(type); // Add a CSS class for styling (e.g., log, error, warn, info)
+    messageElement.textContent = args.map(arg => (typeof arg === "object" ? JSON.stringify(arg) : arg)).join(" ");
+    consoleElement.appendChild(messageElement);
+    consoleElement.scrollTop = consoleElement.scrollHeight; // Scroll to the bottom
 }
 
 // Save files to localStorage
@@ -229,4 +265,7 @@ function loadEruda() {
 document.addEventListener("DOMContentLoaded", () => {
     initializeEditor();
     loadFilesFromLocalStorage();
+
+    // Expose the logToPlaygroundConsole function to the iframe
+    window.logToPlaygroundConsole = logToPlaygroundConsole;
 });
