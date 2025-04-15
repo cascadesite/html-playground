@@ -27,7 +27,13 @@
             </div>
         </div>
         <!-- Output Pane -->
-        <iframe id="output"></iframe>
+        <div id="output-pane">
+            <iframe id="output"></iframe>
+            <div id="console-wrapper">
+                <button id="toggle-console" onclick="toggleConsole()">Show Console</button>
+                <div id="console"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Custom Right-Click Menu -->

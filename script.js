@@ -96,6 +96,19 @@ function renameFile() {
     };
 }
 
+// Show/Hide Console
+function toggleConsole() {
+    const consoleWrapper = document.getElementById("console-wrapper");
+    const toggleButton = document.getElementById("toggle-console");
+    if (consoleWrapper.style.display === "none" || !consoleWrapper.style.display) {
+        consoleWrapper.style.display = "flex";
+        toggleButton.textContent = "Hide Console";
+    } else {
+        consoleWrapper.style.display = "none";
+        toggleButton.textContent = "Show Console";
+    }
+}
+
 // Determine CodeMirror mode based on file extension
 function getMode(fileName) {
     if (fileName.endsWith(".html")) return "htmlmixed";
