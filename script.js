@@ -1,6 +1,10 @@
 let editor; // CodeMirror instance
-let files = {}; // Store files with their content
-let currentFile = null;
+let files = {
+    "index.html": "",
+    "style.css": "",
+    "script.js": ""
+}; // Default files
+let currentFile = "index.html";
 
 // Initialize CodeMirror
 function initializeEditor() {
@@ -54,17 +58,9 @@ function loadFilesFromLocalStorage() {
 
     if (savedCurrentFile) {
         switchFile(savedCurrentFile);
-    } else if (Object.keys(files).length > 0) {
-        switchFile(Object.keys(files)[0]);
-    }
-}
-
-// Create a new file
-function createFileFromBar(fileName) {
-    if (!files[fileName]) {
-        files[fileName] = ""; // Initialize empty content
-        addTab(fileName);
-        switchFile(fileName);
+    } else {
+        Object.keys(files).forEach(addTab);
+        switchFile("index.html");
     }
 }
 
@@ -72,13 +68,6 @@ function createFileFromBar(fileName) {
 function addTab(fileName) {
     const tab = document.createElement("div");
     tab.textContent = fileName;
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "x";
-    deleteBtn.classList.add("delete-btn");
-    deleteBtn.onclick = () => deleteFile(fileName, tab);
-
-    tab.appendChild(deleteBtn);
     tab.onclick = () => switchFile(fileName);
     tab.oncontextmenu = (e) => {
         e.preventDefault();
@@ -92,7 +81,7 @@ function addTab(fileName) {
 function switchFile(fileName) {
     currentFile = fileName;
     document.querySelectorAll("#file-tabs div").forEach((tab) => {
-        tab.classList.toggle("active", tab.textContent.includes(fileName));
+        tab.classList.toggle("active", tab.textContent === fileName);
     });
     editor.setValue(files[fileName]);
     editor.setOption("mode", getMode(fileName));
@@ -127,23 +116,6 @@ function renameFile() {
             }
         }
     };
-}
-
-// Delete a file
-function deleteFile(fileName, tab) {
-    delete files[fileName];
-    tab.remove();
-    saveFilesToLocalStorage();
-
-    if (currentFile === fileName) {
-        const remainingFiles = Object.keys(files);
-        if (remainingFiles.length > 0) {
-            switchFile(remainingFiles[0]);
-        } else {
-            currentFile = null;
-            editor.setValue("");
-        }
-    }
 }
 
 // Show/Hide Console
@@ -199,7 +171,9 @@ document.getElementById("file-input").addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         const fileName = e.target.value.trim();
         if (fileName) {
-            createFileFromBar(fileName);
+            files[fileName] = ""; // Initialize empty content
+            addTab(fileName);
+            switchFile(fileName);
             e.target.value = ""; // Clear input
         }
     }

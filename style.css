@@ -136,21 +136,6 @@ body {
     color: #fff; /* White text during renaming */
 }
 
-/* Delete Button */
-#file-tabs div button.delete-btn {
-    background: red;
-    border: none;
-    color: white;
-    padding: 2px 5px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-#file-tabs div button.delete-btn:hover {
-    background: darkred;
-}
-
 /* Context Menu */
 #context-menu,
 #tab-context-menu {
