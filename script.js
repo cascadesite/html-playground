@@ -118,6 +118,27 @@ function renameFile() {
     };
 }
 
+// Delete a file
+function deleteFile() {
+    const tab = document.querySelector("#tab-context-menu").currentTab;
+    if (!tab) return;
+
+    const fileName = tab.textContent.trim();
+    delete files[fileName];
+    tab.remove();
+    saveFilesToLocalStorage();
+
+    if (currentFile === fileName) {
+        const remainingFiles = Object.keys(files);
+        if (remainingFiles.length > 0) {
+            switchFile(remainingFiles[0]);
+        } else {
+            currentFile = null;
+            editor.setValue("");
+        }
+    }
+}
+
 // Show/Hide Console
 function toggleConsole() {
     const consoleWrapper = document.getElementById("console-wrapper");
@@ -178,6 +199,31 @@ document.getElementById("file-input").addEventListener("keypress", (e) => {
         }
     }
 });
+
+// Load Eruda Debug Tool
+function loadEruda() {
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+    document.body.appendChild(script);
+    script.onload = function () {
+        eruda.init();
+    };
+}
+
+// Activate Eruda on Keyword
+(function () {
+    var keyword = '';
+    document.addEventListener('keypress', function (event) {
+        keyword += event.key.toLowerCase();
+        if (keyword.endsWith('eruda')) {
+            loadEruda();
+            keyword = '';
+        }
+        if (keyword.length > 5) {
+            keyword = keyword.slice(-5);
+        }
+    });
+})();
 
 // Initialize the playground
 document.addEventListener("DOMContentLoaded", () => {
