@@ -35,7 +35,8 @@ body {
 
 /* Iframe */
 #iframe {
-    flex: 1;
+    flex-grow: 1; /* Take up all available space */
+    width: 100%; /* Full width of the right pane */
     border: none;
     background: #1e1e1e;
 }
@@ -54,11 +55,11 @@ body {
 }
 
 #console-wrapper.collapsed {
-    height: 30px;
+    height: 30px; /* Small height when collapsed */
 }
 
 #console-wrapper.expanded {
-    height: 50%;
+    height: 50%; /* Take up half the right pane when expanded */
 }
 
 #toggle-console {
