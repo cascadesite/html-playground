@@ -1,0 +1,92 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Container for Split View */
+#container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* Editor Pane on the Left */
+#editor-pane {
+    width: 50%;
+    background: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* File Tabs */
+#file-tabs {
+    background: #1e1e1e;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #333;
+}
+
+#file-tabs div {
+    background: #333;
+    color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#file-tabs div.active {
+    background: #00bcd4;
+    color: #121212;
+}
+
+/* CodeMirror Editor */
+#code-editor {
+    flex: 1;
+    overflow: auto;
+}
+
+.CodeMirror {
+    height: 100%;
+    font-size: 16px;
+}
+
+/* Output Pane on the Right */
+#iframe {
+    width: 50%;
+    border: none;
+    background: #1e1e1e;
+}
+
+/* Context Menu */
+#context-menu {
+    position: absolute;
+    display: none;
+    background: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+#context-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 5px 0;
+}
+
+#context-menu li {
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#context-menu li:hover {
+    background: #555;
+}
