@@ -25,13 +25,33 @@ body {
     overflow: hidden;
 }
 
-/* File Tabs */
-#file-tabs {
-    background: #1e1e1e;
+/* File Bar */
+#file-bar {
+    display: flex;
+    flex-direction: column;
     padding: 10px;
+    background: #1e1e1e;
+    border-bottom: 1px solid #333;
+}
+
+#file-input {
+    background: #333;
+    color: #e0e0e0;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    outline: none;
+    font-family: inherit;
+    margin-bottom: 10px;
+}
+
+#file-input::placeholder {
+    color: #888;
+}
+
+#file-tabs {
     display: flex;
     gap: 10px;
-    border-bottom: 1px solid #333;
 }
 
 #file-tabs div {
@@ -63,30 +83,4 @@ body {
     width: 50%;
     border: none;
     background: #1e1e1e;
-}
-
-/* Context Menu */
-#context-menu {
-    position: absolute;
-    display: none;
-    background: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
-    border-radius: 5px;
-    z-index: 9999;
-}
-
-#context-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 5px 0;
-}
-
-#context-menu li {
-    padding: 8px 15px;
-    cursor: pointer;
-}
-
-#context-menu li:hover {
-    background: #555;
 }

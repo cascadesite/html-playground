@@ -6,7 +6,7 @@ let currentFile = null;
 function initializeEditor() {
     editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         mode: "htmlmixed",
-        theme: "material",
+        theme: "dracula",
         lineNumbers: true,
         autoCloseBrackets: true,
         autoCloseTags: true,
@@ -36,9 +36,8 @@ function updateIframe() {
 }
 
 // Create a new file
-function createFile() {
-    const fileName = prompt("Enter file name (e.g., index.html):");
-    if (fileName && !files[fileName]) {
+function createFile(fileName) {
+    if (!files[fileName]) {
         files[fileName] = ""; // Initialize empty content
         addTab(fileName);
         switchFile(fileName);
@@ -71,18 +70,15 @@ function getMode(fileName) {
     return "plaintext";
 }
 
-// Show custom right-click menu
-document.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    const menu = document.getElementById("context-menu");
-    menu.style.display = "block";
-    menu.style.left = `${e.pageX}px`;
-    menu.style.top = `${e.pageY}px`;
-});
-
-// Hide custom menu on click
-document.addEventListener("click", () => {
-    document.getElementById("context-menu").style.display = "none";
+// Handle file input (add file when pressing Enter)
+document.getElementById("file-input").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        const fileName = e.target.value.trim();
+        if (fileName) {
+            createFile(fileName);
+            e.target.value = ""; // Clear input
+        }
+    }
 });
 
 // Initialize the playground

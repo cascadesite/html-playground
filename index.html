@@ -5,26 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Playground</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="container">
         <div id="editor-pane">
-            <div id="file-tabs"></div>
+            <div id="file-bar">
+                <input type="text" id="file-input" placeholder="Type file name (e.g., index.html) and press Enter">
+                <div id="file-tabs"></div>
+            </div>
             <div id="code-editor">
                 <textarea id="editor"></textarea>
             </div>
         </div>
         <iframe id="output"></iframe>
-    </div>
-
-    <!-- Custom Right-Click Menu -->
-    <div id="context-menu">
-        <ul>
-            <li onclick="createFile()">New File</li>
-        </ul>
     </div>
 
     <!-- Include CodeMirror from CDN -->
@@ -34,8 +30,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closebrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closetag.min.js"></script>
-
-    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>
