@@ -68,28 +68,15 @@ body {
     color: #121212;
 }
 
-/* CodeMirror Editor */
-#code-editor {
-    flex: 1;
-    overflow: auto;
+/* Editable File Tab */
+#file-tabs div.editable {
+    outline: 2px solid #00bcd4;
+    background: #555;
 }
 
-.CodeMirror {
-    height: 100%;
-    font-size: 16px;
-    background: #1e1e1e;
-    color: #e0e0e0; /* Ensure text is light */
-}
-
-/* Output Pane on the Right */
-#iframe {
-    width: 50%;
-    border: none;
-    background: #1e1e1e;
-}
-
-/* Custom Context Menu */
-#context-menu {
+/* Context Menu */
+#context-menu,
+#tab-context-menu {
     position: absolute;
     display: none;
     background: #333;
@@ -99,17 +86,38 @@ body {
     z-index: 9999;
 }
 
-#context-menu ul {
+#context-menu ul,
+#tab-context-menu ul {
     list-style: none;
     margin: 0;
     padding: 5px 0;
 }
 
-#context-menu li {
+#context-menu li,
+#tab-context-menu li {
     padding: 8px 15px;
     cursor: pointer;
 }
 
-#context-menu li:hover {
+#context-menu li:hover,
+#tab-context-menu li:hover {
     background: #555;
+}
+
+/* CodeMirror Editor */
+#code-editor {
+    flex: 1;
+    overflow: auto;
+}
+
+.CodeMirror {
+    height: 100%;
+    font-size: 14px;
+}
+
+/* Output Pane on the Right */
+#iframe {
+    width: 50%;
+    border: none;
+    background: #1e1e1e;
 }
