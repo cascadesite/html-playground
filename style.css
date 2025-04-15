@@ -60,6 +60,7 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    user-select: none;
 }
 
 #file-tabs div.active {
@@ -76,6 +77,7 @@ body {
 .CodeMirror {
     height: 100%;
     font-size: 16px;
+    background: #1e1e1e;
 }
 
 /* Output Pane on the Right */
@@ -83,4 +85,30 @@ body {
     width: 50%;
     border: none;
     background: #1e1e1e;
+}
+
+/* Custom Context Menu */
+#context-menu {
+    position: absolute;
+    display: none;
+    background: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+#context-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 5px 0;
+}
+
+#context-menu li {
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#context-menu li:hover {
+    background: #555;
 }

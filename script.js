@@ -36,7 +36,7 @@ function updateIframe() {
 }
 
 // Create a new file
-function createFile(fileName) {
+function createFileFromBar(fileName) {
     if (!files[fileName]) {
         files[fileName] = ""; // Initialize empty content
         addTab(fileName);
@@ -75,17 +75,31 @@ document.getElementById("file-input").addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         const fileName = e.target.value.trim();
         if (fileName) {
-            createFile(fileName);
+            createFileFromBar(fileName);
             e.target.value = ""; // Clear input
         }
     }
 });
 
+// Show custom right-click menu
+document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const menu = document.getElementById("context-menu");
+    menu.style.display = "block";
+    menu.style.left = `${e.pageX}px`;
+    menu.style.top = `${e.pageY}px`;
+});
+
+// Hide custom menu on click
+document.addEventListener("click", () => {
+    document.getElementById("context-menu").style.display = "none";
+});
+
 // Initialize the playground
 document.addEventListener("DOMContentLoaded", () => {
     initializeEditor();
-    createFile("index.html"); // Default file
-    createFile("style.css"); // Default file
-    createFile("script.js"); // Default file
+    createFileFromBar("index.html"); // Default file
+    createFileFromBar("style.css"); // Default file
+    createFileFromBar("script.js"); // Default file
     switchFile("index.html"); // Open default file
 });
